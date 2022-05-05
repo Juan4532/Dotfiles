@@ -1,0 +1,10 @@
+[Default Applications]
+x-scheme-handler/tg=userapp-Telegram Desktop-JP16W0.desktop
+x-scheme-handler/mailspring=mailspring.desktop
+x-scheme-handler/discord-712465656758665259=discord-712465656758665259.desktop
+
+[Added Associations]
+x-scheme-handler/tg=userapp-Telegram Desktop-JP16W0.desktop;
+application/pdf=chromium.desktop;org.pwmt.zathura.desktop;
+text/plain=teamviewerapi.desktop;
+application/zip=chromium.desktop;
