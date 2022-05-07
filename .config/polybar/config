@@ -1,0 +1,288 @@
+[colors]
+background = #2e3440
+background-alt = #3b4252
+foreground = #d8dee9
+foreground-alt = #e5e9f0
+primary = #88c0d0
+alert = #bf616a
+red = #bf616a
+orange = #d08770
+yellow = #ebcb8b
+green = #a3be8c
+purple = #b48ead
+frost = #8fbcbb
+blue = #81a1c1
+
+[bar/laptop]
+width = 100%
+height = 28
+radius = 0.0
+
+module-margin = 2
+
+background = ${colors.background-alt}
+foreground = ${colors.foreground}
+
+font-2 = "Iosevka:pixelsize=21;3"
+font-1 = "Material Design Icons:size=10:2"
+font-0 = "San Francisco Display:style=Semibold"
+
+line-size = 0
+overline-size = 0
+underline-size = 0
+
+border-size = 0
+
+padding-left = 0
+padding-right = 2
+
+modules-left = bspwm
+modules-center = time weather 
+modules-right =  xkeyboard network cpu memory pulseaudio
+
+tray-position = right
+tray-padding = 2
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused =
+label-focused-foreground = ${colors.primary}
+label-focused-padding = 2
+
+label-occupied =
+label-occupied-padding = 2
+
+label-urgent =
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty =
+label-empty-foreground = ${colors.foreground}
+label-empty-padding = 2
+
+
+[module/time]
+type = internal/date
+
+date = %b %d
+time = %H:%M
+
+format = <label>
+format-foreground = ${colors.foreground}
+
+format-prefix = 
+format-prefix-margin=2
+format-prefix-foreground = ${colors.orange}
+
+label = %date%, %time%
+
+[module/weather]
+type = custom/script
+
+; Script
+exec = ~/.config/polybar/scripts/weather.sh
+
+; Update interval
+interval = 600
+
+; Label
+label            =   %output%
+label-foreground = ${colors.frost}
+label-background = ${colors.cyan}
+label-padding    = 2
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+sink = alsa_output.pci-0000_12_00.3.analog-stereo
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = true
+
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
+
+; Available tags:
+;   <label-volume> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-volume = <ramp-volume> <label-volume>
+
+; Available tags:
+;   <label-muted> (default)
+;   <ramp-volume>
+;   <bar-volume>
+;format-muted = <label-muted>
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels%
+;label-volume = %percentage%%
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels%
+label-muted = 婢 muted
+label-muted-foreground = ${colors.red}
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 =  
+ramp-volume-1 =  
+ramp-volume-2 =  墳
+ramp-volume-0-foreground = ${colors.blue}
+ramp-volume-1-foreground = ${colors.blue}
+ramp-volume-2-foreground = ${colors.blue}
+
+; Right and Middle click
+click-right = pavucontrol
+; click-middle =
+
+[module/memory]
+type = internal/memory
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3
+
+; Default: 90
+; New in version 3.6.0
+warn-percentage = 95
+format-prefix = 
+format-prefix-margin =2
+format-prefix-foreground = ${colors.green}
+
+; Available tags:
+;   <label> (default)
+;   <bar-used>
+;   <bar-free>
+;   <ramp-used>
+;   <ramp-free>
+;   <bar-swap-used>
+;   <bar-swap-free>
+;   <ramp-swap-used>
+;   <ramp-swap-free>
+label = "%mb_used%"
+
+
+[module/cpu]
+type = internal/cpu
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 0.5
+
+; Default: 80
+; New in version 3.6.0
+warn-percentage = 95
+format-prefix=
+format-prefix-margin=2
+format-prefix-foreground= ${colors.red}
+label = %percentage%%
+
+[module/xkeyboard]
+type = internal/xkeyboard
+
+format-prefix = 
+format-prefix-margin =2 
+format-prefix-foreground = ${colors.yellow}
+
+
+; Available tags:
+;   <label-layout> (default)
+;   <label-indicator> (default)
+format = <label-layout> 
+format-spacing = 0
+
+[module/network]
+type = internal/network
+; Name of the network interface to display. You can get the names of the
+; interfaces on your machine with `ip link`
+; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+interface = enp1s0
+
+; If no interface is specified, polybar can detect an interface of the given type.
+; If multiple are found, it will prefer running interfaces and otherwise just
+; use the first one found.
+; Either 'wired' or 'wireless'
+; New in version 3.6.0
+interface-type = wireless
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+
+; Test connectivity every Nth update
+; A value of 0 disables the feature
+; NOTE: Experimental (needs more testing)
+; Default: 0
+;ping-interval = 3
+
+; @deprecated: Define min width using token specifiers (%downspeed:min% and %upspeed:min%)
+; Minimum output width of upload/download rate
+; Default: 3
+udspeed-minwidth = 5
+
+; Accumulate values from all interfaces
+; when querying for up/downspeed rate
+; Default: false
+accumulate-stats = true
+
+; Consider an `UNKNOWN` interface state as up.
+; Some devices like USB network adapters have 
+; an unknown state, even when they're running
+; Default: false
+unknown-as-up = true
+
+; The unit used for displaying network speeds
+; For example if set to the empty string, a speed of 5 KB/s is displayed as 5 K
+; Default: B/s
+; New in version 3.6.0
+speed-unit = ''
+; Available tags:
+;   <label-connected> (default)
+;   <ramp-signal>
+format-connected = <ramp-signal> <label-connected>
+
+; Available tags:
+;   <label-disconnected> (default)
+format-disconnected = <label-disconnected>
+
+; Available tags:
+;   <label-connected> (default)
+;   <label-packetloss>
+;   <animation-packetloss>
+format-packetloss = <animation-packetloss> <label-connected>
+
+; All labels support the following tokens:
+;   %ifname%    [wireless+wired]
+;   %local_ip%  [wireless+wired]
+;   %local_ip6% [wireless+wired]
+;   %essid%     [wireless]
+;   %signal%    [wireless]
+;   %upspeed%   [wireless+wired]
+;   %downspeed% [wireless+wired]
+;   %netspeed%  [wireless+wired] (%upspeed% + %downspeed%) (New in version 3.6.0)
+;   %linkspeed% [wired]
+;   %mac%       [wireless+wired] (New in version 3.6.0)
+
+; Only applies if <ramp-signal> is used
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-5 = 
+ramp-signal-0-foreground = ${colors.purple}
+
+; Default: %ifname% %local_ip%
+label-connected = %local_ip% %downspeed%
+label-connected-foreground = #eefafafa
+
+; Default: (none)
+label-disconnected = 
+label-disconnected-foreground = ${colors.purple}

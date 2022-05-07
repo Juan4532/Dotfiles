@@ -1,0 +1,11 @@
+#! /bin/bash
+
+
+key=$(xmodmap -pke | grep -w "47" | awk '{print $4}')
+
+if [ $key == "semicolon" ]; then
+	setxkbmap es
+else
+	setxkbmap us
+
+fi

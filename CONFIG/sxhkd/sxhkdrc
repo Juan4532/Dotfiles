@@ -7,20 +7,12 @@ super + shift + r
 
 #tilix
 super + Return
-	tilix
+	alacritty
 
-super + ctrl + {h,j,k,l}
-        bspc node -p {west,south,north,east}
-
-super + ctrl + {1-9}
-        bspc node -o 0.{1-9}
-
-super + ctrl + space
-        bspc node -p cancel
 
 #rofi
 super + d
-	/home/juan/.config/polybar/scripts/launcher-alt
+	rofi show run
 
 super + shift + d
 	rofi -show window -show-icons

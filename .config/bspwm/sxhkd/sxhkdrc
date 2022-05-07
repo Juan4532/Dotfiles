@@ -1,0 +1,249 @@
+#################################################################
+# KEYBOARD BINDINGS
+#################################################################
+
+#################################################################
+# RELOAD
+#################################################################
+
+#reload sxhkd:
+super + shift + s
+	pkill -USR1 -x sxhkd
+
+#Reload bspwm
+super + shift + r
+	~/.config/bspwm/bspwmrc
+
+#################################################################
+# SHORTCUTS
+#################################################################
+
+#Layout
+super + l
+    ~/.config/bspwm/scripts/keymap
+
+#kill
+super + q
+	bspc node -c
+
+#Rofi
+super + d
+    rofi -show run -show-icons
+
+super + Tab
+    rofi -show window -show-icons
+
+#alacritty
+super + Return
+    alacritty
+
+#Thunar
+super + t
+    thunar
+
+#Catfis
+super + w
+     catfish
+
+#Browser
+super + b
+    brave
+
+#arcolinux-logout
+super + z
+    arcolinux-logout
+
+#Pavucontrol
+super + v
+    pavucontrol
+
+
+##CONKY
+#conky-rotate
+ctrl + alt + c
+     conky-rotate -n
+
+#conky-rotate
+ctrl + alt + c
+    conky-rotate -p
+
+
+##VARIETY
+#Wallpaper trash
+alt + t
+    variety -t
+
+#Wallpaper next
+alt + n
+    variety -n
+
+#Wallpaper previous
+alt + p
+    variety -p
+
+#Wallpaper favorite
+alt + f
+    variety -f
+
+
+#Gnome-Screenshot
+super + c
+     gnome-screenshot --interactive
+
+#Hide polybar
+super + y
+    polybar-msg cmd toggle
+
+#Picom Toggle
+ctrl + alt + o
+    ~/.config/bspwm/scripts/picom-toggle.sh
+
+#################################################################
+#     MULTIMEDIA KEYS
+#################################################################
+
+#Raises volume
+XF86AudioRaiseVolume
+    amixer set Master 10%+
+
+#Lowers volume
+XF86AudioLowerVolume
+    amixer set Master 10%-
+
+#Mute
+XF86AudioMute
+    amixer -D pulse set Master 1+ toggle
+
+#Playerctl works for Pragha, Spotify and others
+#Delete the line for playerctl if you want to use mpc
+#and replace it with the corresponding code
+#mpc works for e.g.ncmpcpp
+#mpc toggle
+#mpc next
+#mpc prev
+#mpc stop
+
+#PLAY
+XF86AudioPlay
+    playerctl play-pause
+
+#Next
+XF86AudioNext
+    playerctl next
+
+#previous
+XF86AudioPrev
+    playerctl previous
+
+#Stop
+XF86AudioStop
+    playerctl stop
+
+#Brightness up
+XF86MonBrightnessUp
+    xbacklight -inc 10
+
+#Brightness down
+XF86MonBrightnessDown
+    xbacklight -dec 10
+
+
+#################################################################
+#################################################################
+##################   DESKTOP SPECIFIC    ########################
+#################################################################
+#################################################################
+
+##WORKSPACES
+
+# Go to selected workspace
+super + {1-9,0}
+	bspc desktop -f '^{1-9,10}'
+
+# Send a window to selected workspace
+super + shift + {1-9,0}
+    id=$(bspc query -N -n); bspc node -d ^{1-9,10}; bspc node -f ${id}}
+
+
+
+##WINDOWS MODES
+
+# set the window state
+super + space
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+#Toggle fullscreen of window
+super + f
+	bspc node --state \~fullscreen
+
+#Toggle floating 
+super + shift + f
+	bspc node --state \~floating
+
+# Toggle pseudo tiling of window
+super + p
+	bspc node --state \~pseudo_tiled
+
+
+## WINDOWS SWAP
+
+# Focus/swap windows by direction
+super + {_,shift + }{h,j,k,l}
+	bspc node --{focus,swap} {west,south,north,east}
+
+super + {_,shift + }{Left,Down,Up,Right}
+	bspc node --{focus,swap} {west,south,north,east}
+
+#Rotate desktop
+alt + space
+	bspc node @/ --rotate {90,-90}
+
+# Move focus to other monitor
+super + BackSpace
+		bspc monitor -f next
+
+# Move focused window to other monitor
+super + shift + Left
+	bspc node -m next --follow
+
+# Move focused window to other monitor
+super + shift + Right
+		bspc node -m next --follow
+
+# Move focused window to other monitor
+super + shift + Up
+	bspc node -m next --follow
+
+# Move focused window to other monitor
+super + shift + Down
+		bspc node -m next --follow
+
+
+## WINDOWS RESIZED
+
+# Expand tiled space
+super + ctrl + {h,j,k,l}
+	bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
+
+# Contract tiled space
+super + alt + {h,j,k,l}
+	bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
+
+# Focused desktop window gap
+super + button{4,5}
+  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 2 ))
+
+
+## PRESELECT AREA
+
+# Preselect the splitting area for next window on leaf/parent
+ctrl + alt + {h,j,k,l}
+	bspc node --presel-dir \~{west,south,north,east}
+
+# Define splitting ratio for next window on leaf/parent
+ctrl + alt + {_,shift +}{1-9}
+	bspc node {_,@/} --presel-ratio 0.{1-9}
+
+# Cancel preselection
+ctrl + alt + space
+	bspc node --presel-dir cancel
